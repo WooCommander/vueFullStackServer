@@ -1,5 +1,15 @@
 console.log(`hello`);
 const express = require('express');
-const bdyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const cors = require('cors')
-const cors = require('morgan')
+const morgan = require('morgan');
+const app = express()
+app.use(morgan('combine'))
+app.use(bodyParser.json());
+app.use(cors())
+app.post('/register', (req, res) => {
+  res.send({
+    message:`Hello ${req.body.email}! Пользователь зарегистрирован!`
+  })
+})
+app.listen(process.env.PORT || 8081)
