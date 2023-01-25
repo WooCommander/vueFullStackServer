@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./src/app.ts localhost 8081",
+    "start": "nodemon ./src/app.js localhost 8081",
     "start1": "nodemon --watch src/app.js --exec 'npm run lint && node'",
     "lint": "./node_modules/eslint/bin/eslint.js **/*.js"
   },
