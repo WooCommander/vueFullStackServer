@@ -1,15 +1,16 @@
+   const { User } = require('../models/User')
 
-const { User } = require('../models')
 module.exports = {
   async register(req, res) {
-    try {
+     try {
       res.send({
             message: `Hello ${req.body.email}! Пользователь зарегистрирован! `
       })
-      console.log(`req.body`,req.body );
-      const user = await User.create(req.body);
-      // res.send(user.toJSON)
-      console.log(`user`, user);
+      console.log(`req.body`,req.body,User  );
+       const user = await User.create(req.body);
+       const userJson = user.toJSON()
+       res.send(userJson)
+       console.log(`user`, user);
             
     } catch (error) {
       console.log(`req.body`,error );
