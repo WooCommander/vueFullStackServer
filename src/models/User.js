@@ -1,15 +1,19 @@
+'use strict';
+
 module.exports = (sequelize, DataTypes) => {
-  console.log(`1`, 1);
-  const User =  sequelize.define('user', {
-    email: {
-      type: DataTypes.STRING,
-      unique: true
+  const User = sequelize.define('User',
+    {
+      email: {
+        type: DataTypes.STRING,
+        unique: true
+      }
     },
-    password: {
-      type: DataTypes.STRING,
+    {
+      password: {
+        type: DataTypes.STRING,
+      }
     },
-  })
-  User.associate = function (models) {
-  }
-  return User
+  )
+  console.log(User === sequelize.models.User);
+  return User;
 }

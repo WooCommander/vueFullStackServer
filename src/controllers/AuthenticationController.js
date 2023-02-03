@@ -1,16 +1,14 @@
-   const { User } = require('../models/User')
+const { Sequelize, Model, DataTypes } = require("sequelize")
+const { sequelize } = require("../models");
 
+const  User  = require('../models/User')(sequelize, DataTypes);
 module.exports = {
   async register(req, res) {
      try {
-      res.send({
-            message: `Hello ${req.body.email}! Пользователь зарегистрирован! `
-      })
-      console.log(`req.body`,req.body,User  );
-       const user = await User.create(req.body);
+      const user = await User.create(req.body);
        const userJson = user.toJSON()
+       console.log(`userJson`, userJson);
        res.send(userJson)
-       console.log(`user`, user);
             
     } catch (error) {
       console.log(`req.body`,error );
