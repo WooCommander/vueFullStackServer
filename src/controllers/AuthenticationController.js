@@ -18,5 +18,33 @@ module.exports = {
     // res.send({
     //     message: `Hello ${req.body.email}! Пользователь зарегистрирован! `
     //   })
-  }
+  },
+
+  async login(req, res) {
+    try {
+      const { email, password } = req.body;
+      const user = await User.findOne({
+        where: {
+         email:email
+        }
+      });
+      if (!user) {
+       return res.status(403).send({
+          error:"The login information incorrect"
+        })
+      }
+      const isPasswordValid = password === user.password;
+      if (!isPasswordValid) {
+        return res.status(403).send({
+           error:"The login information incorrect"
+         })
+      }
+      const userJson = user.toJSON()
+      res.send({
+        user: userJson
+      })
+   } catch (error) {
+     res.status(500).send({error:'An error has occured trying to log in'})
+   }
+ }
 }
