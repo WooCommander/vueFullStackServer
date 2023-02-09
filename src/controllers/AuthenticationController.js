@@ -1,6 +1,11 @@
 const { Sequelize, Model, DataTypes } = require("sequelize")
 const { sequelize } = require("../models");
-
+const jwt = require("jsonwebtoken");
+const config = require("../config/config")
+function jwtSignUser(user) {
+  const ONE_WEEK = 60 * 60 * 24 * 7;
+  return jwt.sign(user, config.autthentication.jwtSecret, { expiresIn: ONE_WEEK });
+}
 const  User  = require('../models/User')(sequelize, DataTypes);
 module.exports = {
   async register(req, res) {
@@ -33,7 +38,7 @@ module.exports = {
           error:"The login information incorrect"
         })
       }
-      const isPasswordValid = password === user.password;
+      const isPasswordValid = await user.comparePassword(password);
       if (!isPasswordValid) {
         return res.status(403).send({
            error:"The login information incorrect"
@@ -41,7 +46,8 @@ module.exports = {
       }
       const userJson = user.toJSON()
       res.send({
-        user: userJson
+        user: userJson,
+        token:jwtSignUser(userJson)
       })
    } catch (error) {
      res.status(500).send({error:'An error has occured trying to log in'})
