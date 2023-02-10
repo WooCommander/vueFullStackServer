@@ -1,12 +1,16 @@
-const Promise = require("bluebird");
-const bcrypt = Promise.promisifyAll(require("bcrypt-nodejs"));
+var Promise = require("bluebird"),
+    bcrypt = Promise.promisifyAll(require('bcrypt-nodejs'));
+
 function hashPassword(user,options) {
   const SALT_FACTOR = 8;
   if (!user.changed('password')) {
     return
   }
-  return bcrypt.genSaltAsync(SALT_FACTOR).then(salt => bcrypt.hashAsync(user.password, salt, null)).then(hash => {
-    user.setDataValue('password',hash)
+  return bcrypt
+    .genSaltAsync(SALT_FACTOR)
+    .then(salt => bcrypt.hashAsync(user.password, salt, null))
+    .then(hash => {
+      user.setDataValue('password',hash)
   })
 }
 module.exports = (sequelize, DataTypes) => {
@@ -29,7 +33,8 @@ module.exports = (sequelize, DataTypes) => {
       beforeSave: hashPassword,
     }
   })
-  User.prototype.comparePassword = function (password)  {
+  User.prototype.comparePassword = function (password) {
+    console.log(`1111111111111111111111`, 1111111111111111111111);
     return bcrypt.compareAsync(password, this.password)
   }
    return User;
