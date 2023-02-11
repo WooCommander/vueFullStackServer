@@ -9,7 +9,9 @@ function jwtSignUser(user) {
 const  User  = require('../models/User')(sequelize, DataTypes);
 module.exports = {
   async register(req, res) {
-     try {
+    try {
+      console.log(`req.body`, req.body);
+      
       const user = await User.create(req.body);
        const userJson = user.toJSON()
        console.log(`userJson`, userJson);
